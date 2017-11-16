@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  worker:
+    build: ./
+    environment:
+      - NODE_ENV=development
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+    links:
+      - rabbitmq
+    volumes:
+      - .:/src
+    ports:
+      - "8080:8080"
+
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
