@@ -2,11 +2,11 @@ import {Service} from './service';
 import {WebClient} from '@slack/client';
 import {IncomingWebhook} from '@slack/client';
 
-const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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';
+const SLACK_WEBHOOK_URL = '';
 
 
 export class SlackService implements Service {
-   /* private token:string =  'xoxp-274493794343-273555581077-272874741008-c42311205cd324dfcc441f33a4523ff2'; //see section above on sensitive data
+   /* private token:string =  ''
     private web:any = new WebClient(this.token);*/
     
     private webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
