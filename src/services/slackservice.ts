@@ -4,8 +4,8 @@ import {WebClient, IncomingWebhook, CLIENT_EVENTS, RtmClient} from '@slack/clien
 
 //test: https://www.npmjs.com/package/slack-mock
 
-const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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';
-const BOT_TOKEN = 'xoxp-274493794343-273555581077-273919999136-63ff24d367080cb7b8c5df0afc6d5eef';
+const SLACK_WEBHOOK_URL = '';
+const BOT_TOKEN = '';
 
 export class SlackService implements Service {
    /* private token:string =  ''
