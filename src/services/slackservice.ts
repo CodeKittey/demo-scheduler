@@ -1,24 +1,32 @@
 import {Service} from './service';
-import {WebClient} from '@slack/client';
-import {IncomingWebhook} from '@slack/client';
+import {WebClient, IncomingWebhook, CLIENT_EVENTS, RtmClient} from '@slack/client';
 
-const SLACK_WEBHOOK_URL = '';
 
+//test: https://www.npmjs.com/package/slack-mock
+
+const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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';
+const BOT_TOKEN = 'xoxp-274493794343-273555581077-273919999136-63ff24d367080cb7b8c5df0afc6d5eef';
 
 export class SlackService implements Service {
    /* private token:string =  ''
     private web:any = new WebClient(this.token);*/
     
     private webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
+    private rtm = new RtmClient(BOT_TOKEN);
 
     public async list() {
-        this.webhook.send('Hello there', function(err, res) {
+        this.rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
+            console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}, but not yet connected to a channel`);
+        });
+        
+        this.rtm.start();
+        /*this.webhook.send('Hello there', function(err, res) {
             if (err) {
                 console.log('Error:', err);
             } else {
                 console.log('Message sent: ', res);
             }
-        });
+        });*/
     }
     /*public async list() {
         await this.web.channels.list(function(err, info) {
@@ -34,3 +42,44 @@ export class SlackService implements Service {
 }
 
 export const slackService = new SlackService();
+
+/*{
+    "text": "Would you like to play a game?",
+    "attachments": [
+        {
+            "text": "Choose a game to play",
+            "fallback": "You are unable to choose a game",
+            "callback_id": "wopr_game",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "actions": [
+                {
+                    "name": "game",
+                    "text": "Chess",
+                    "type": "button",
+                    "value": "chess"
+                },
+                {
+                    "name": "game",
+                    "text": "Falken's Maze",
+                    "type": "button",
+                    "value": "maze"
+                },
+                {
+                    "name": "game",
+                    "text": "Thermonuclear War",
+                    "style": "danger",
+                    "type": "button",
+                    "value": "war",
+                    "confirm": {
+                        "title": "Are you sure?",
+                        "text": "Wouldn't you prefer a good game of chess?",
+                        "ok_text": "Yes",
+                        "dismiss_text": "No"
+                    }
+                }
+            ]
+        }
+    ]
+}
+*/
