@@ -33,6 +33,7 @@
     "typescript": "^2.6.1"
   },
   "devDependencies": {
+    "json-loader": "^0.5.7",
     "nodemon": "^1.12.1"
   }
 }

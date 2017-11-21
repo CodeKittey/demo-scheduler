@@ -1,11 +1,11 @@
 import {Service} from './service';
 import {WebClient, IncomingWebhook, CLIENT_EVENTS, RtmClient} from '@slack/client';
-
+import * as config from '../../config/config.json';
 
 //test: https://www.npmjs.com/package/slack-mock
 
-const SLACK_WEBHOOK_URL = '';
-const BOT_TOKEN = '';
+const SLACK_WEBHOOK_URL = (<any>config).WEBHOOK_URL;
+const BOT_TOKEN = (<any>config).BOT_TOKEN;;
 
 export class SlackService implements Service {
    /* private token:string =  ''
