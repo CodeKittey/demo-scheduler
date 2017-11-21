@@ -2,7 +2,7 @@ import {Service} from './service';
 import {WebClient} from '@slack/client';
 import {IncomingWebhook} from '@slack/client';
 
-const SLACK_WEBHOOK_URL = '';
+const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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';
 
 
 export class SlackService implements Service {
