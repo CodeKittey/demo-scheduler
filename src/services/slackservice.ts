@@ -1,6 +1,8 @@
 import {Service} from './service';
 import {WebClient, IncomingWebhook, CLIENT_EVENTS, RtmClient} from '@slack/client';
 import * as config from '../../config/config.json';
+import * as Botkit from 'botkit';
+
 
 
 const SLACK_WEBHOOK_URL = (<any>config).WEBHOOK_URL;
@@ -13,7 +15,18 @@ export class SlackService implements Service {
     private webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
     private rtm = new RtmClient(BOT_TOKEN);
 
+    //private controller = Botkit.slackbot();
+    
+    
+    // give the bot something to listen for.
+
+
     public async list() {
+     //   this.controller.hears('hello',['direct_message','direct_mention','mention'],function(bot,message) {
+            
+     //         bot.reply(message,'Hello yourself.');
+            
+     //       });
         this.rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
             console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}, but not yet connected to a channel`);
         });

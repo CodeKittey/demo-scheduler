@@ -5,6 +5,11 @@ import {slackService} from '../services/slackservice';
 export class SlackController {
     public initialize(apiServer: ApiServer): void {
         apiServer.get('slack/list', this.list.bind(this));
+        apiServer.post('slack/recieve', (req, res) => 
+        {   
+            console.log(req.body.challenge);
+            res.send(200, req.body.challenge);
+        })
     }
 
     private async list(req: Request, res: Response): Promise<void> {
