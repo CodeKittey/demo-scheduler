@@ -7,8 +7,8 @@ export class SlackController {
         apiServer.get('slack/list', this.list.bind(this));
         apiServer.post('slack/recieve', (req, res) => 
         {   
-            console.log(req.body.challenge);
-            res.send(200, req.body.challenge);
+            console.log(req.body);
+            res.send(200);
         })
     }
 
