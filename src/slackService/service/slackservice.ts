@@ -1,4 +1,4 @@
-import {Service} from './service';
+import {Service} from '../../service';
 import {WebClient, IncomingWebhook, CLIENT_EVENTS, RtmClient} from '@slack/client';
 import * as config from '../../config/config.json';
 import * as Botkit from 'botkit';
@@ -20,14 +20,6 @@ export class SlackService implements Service {
             username: 'My custom username',
             iconEmoji: ':slack:',
     });
-    //private rtm = new RtmClient(BOT_TOKEN);
-
-    //private controller = Botkit.slackbot({
-      //      debug: false
-       // });
-    
-    
-    // give the bot something to listen for.
 
 
     public async list() {
