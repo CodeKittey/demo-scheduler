@@ -1,18 +1,14 @@
-import {ApiServer} from '../apiServer';
 import {Request, Response} from 'restify';
-import {slackService} from '../services/slackservice';
+import {slackService} from '../service/slackservice';
+import {INotificationMessage} from '../messages/INotificationMessage';
 
 export class SlackController {
-    public initialize(apiServer: ApiServer): void {
-        apiServer.get('slack/list', this.list.bind(this));
-        apiServer.post('slack/recieve', (req, res) => 
-        {   
-            console.log(req.body);
-            res.send(200);
-        })
+    public postMessage(message: INotificationMessage): void {
+        slackService.postMessage(message);
     }
 
-    private async list(req: Request, res: Response): Promise<void> {
-        res.send(await slackService.list());
+    public recievePayload(req: Request, res: Response): void {
+            console.log(req.body);
+            res.send(200);
     }
 }

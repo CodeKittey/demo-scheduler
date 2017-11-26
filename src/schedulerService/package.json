@@ -1,12 +1,12 @@
 {
-  "name": "slackservice",
+  "name": "schedulerservice",
   "version": "1.0.0",
-  "description": "webhook for slack and email",
+  "description": "webhook notification",
   "main": "app.js",
   "scripts": {
     "build": "tsc",
     "start": "nodemon --exec ts-node src/app.ts",
-    "start-server": "node build/slackservice/app.js"
+    "start-server": "node build/app.js"
   },
   "author": "mkraus",
   "license": "MIT",
