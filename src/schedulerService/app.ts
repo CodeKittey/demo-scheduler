@@ -1,7 +1,17 @@
 import {RequestHandler, Server} from 'restify';
 import * as restify from 'restify';
 import {HealthController} from './controllers/health';
-import {SchedulerController} from './controllers/scheduler'
+import {SchedulerController} from './controllers/scheduler';
+import * as Amqp from "amqp-ts";
+
+var connection = new Amqp.Connection("amqp://localhost:5672");
+var exchange = connection.declareExchange('scheduler');
+var queue = connection.declareQueue("RevieverPayload");
+queue.bind(exchange, 'reciever');
+
+queue.activateConsumer((message) => {
+    console.log(message.getContent());
+}, {noAck: true});
 
 // Restify Web API
 export let server = restify.createServer({

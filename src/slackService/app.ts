@@ -6,13 +6,13 @@ import * as Amqp from "amqp-ts";
 import {INotificationMessage} from './messages/INotificationMessage';
 
 var connection = new Amqp.Connection("amqp://localhost:5672");
-var exchange = connection.declareExchange("Ex1");
+var exchange = connection.declareExchange('scheduler');
 var queue = connection.declareQueue("Notification");
-queue.bind(exchange);
+queue.bind(exchange, 'notification');
 
 queue.activateConsumer((message) => {
     new SlackController().postMessage(message.getContent());
-});
+}, {noAck: true});
 
 // Restify Web API
 export let server = restify.createServer({

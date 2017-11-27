@@ -1,73 +1,88 @@
 import {Service} from '../../service';
-import {WebClient, IncomingWebhook, CLIENT_EVENTS, RtmClient} from '@slack/client';
+import {WebClient} from '@slack/client';
 import * as config from '../config/config.json';
 import {INotificationMessage} from '../messages/INotificationMessage';
 import * as members from '../config/member.json';
 import * as _ from 'lodash';
+import {EXCHANGE} from './queue'; 
+import * as Amqp from "amqp-ts";
 
-
-const WEBHOOK_URL_TTBOT = (<any>config).WEBHOOK_URL_TTBOT;
-const BOT_TOKEN = (<any>config).BOT_TOKEN;
+const BOT_USER_OAUTH_ACCESS_TOKEN = (<any>config).BOT_USER_OAUTH_ACCESS_TOKEN;
 
 export class SlackService implements Service {
-    private web:any = new WebClient(BOT_TOKEN);
-    priv
-
-    private createWebhookMessage(message: INotificationMessage) {
+    private web:any = new WebClient(BOT_USER_OAUTH_ACCESS_TOKEN);
+    
+    private createWebhookAttachment(message: INotificationMessage) {
         return {
-                text: 'New Scheduler service incoming',
-                iconEmoji: ':robot_face:',
-                channel: '#random',
-                linkNames: '1',
                 attachments: [
                         {
                             "text": message.text,
-                            "fallback": "You are unable to choose a game",
                             "callback_id": message.callback_id,
-                            "color": "#3AA3E3",
                             "attachment_type": "default",
-                            "actions": [
-                                {
-                                    "name": "scheduler",
-                                    "text": message.actions[0].text,
-                                    "type": "button",
-                                    "value": message.actions[0].value
-                                },
-                                {
-                                    "name": "scheduler",
-                                    "text": message.actions[1].text,
-                                    "type": "button",
-                                    "value": message.actions[1].value
-                                }
-                            ]
-                        }
-                    ]
+                            "actions": this.createUserAction(message.actions)
+                        },
+                        
+                    ],
+                    as_user: true
                 }
     }
 
 
     public postMessage(message: INotificationMessage) {
-        const webhookmessage = this.createWebhookMessage(message);   
-        console.log(WEBHOOK_URL_TTBOT) ;       
-            let wh = new IncomingWebhook(WEBHOOK_URL_TTBOT);
-            wh.send(webhookmessage);
+        const options = this.createWebhookAttachment(message);
+        
+        message.users.forEach(user => {
+            let userId = this.getUserIdByName(user.name);
+        
+            if (!userId) return "User with username: " + user.name + "not found.";
 
-
-
+            this.web.chat.postMessage(this.getUserIdByName(user.name), 'New Scheduler service incoming', options, (err, res) => {
+            if (err) {
+                console.log('Error:', err);
+            } else {
+                console.log('Message sent: ');
+            }
+        });
+     });
     };
 
-//U81GBH329 kraus
-//U81HE6GV8 kitty
 
+    private getUserIdByName(nameKey: string) {
+        return (<any>members)[nameKey];
+    }
 
-    private getWebHookURL(nameKey: string) {
-        const memberEntry = _.find((<any>members), (entry) => { 
-            if(entry.key === nameKey) return entry.webhookurl;
+    private createUserAction(actions) {
+        let userActions = [];
+
+        actions.forEach(action => {
+            userActions.push({
+                "name": "scheduler",
+                "text": action.text,
+                "type": "button",
+                "value": action.value
+            })
         });
 
-        console.log(memberEntry.webhookurl);
+        return userActions;
+    }
 
-        return memberEntry.webhookurl;
+    public sendPayload(payload) {
+        let payloadJSON = JSON.parse(payload);
+
+        let message = {
+            user: this.getUserNameByUserId(payloadJSON.user.id),
+            value: payloadJSON.actions[0].value,
+            callback_id: payloadJSON.callback_id
+        }
+
+        let msg = new Amqp.Message(message);
+        EXCHANGE.send(msg, 'reciever');
+    }
+
+    private getUserNameByUserId(userId: string) {
+        return _.findKey((<any>members), (member) => { 
+            return member === userId; 
+        });
     }
 }
 

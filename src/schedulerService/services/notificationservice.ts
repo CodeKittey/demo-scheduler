@@ -6,8 +6,8 @@ import {EXCHANGE} from './queue'
 export class NotificationService {
 
     public send(message: INotificationMessage) {
-        var msg = new Amqp.Message(message);
-        EXCHANGE.send(msg);
+        let msg = new Amqp.Message(message);
+        EXCHANGE.send(msg, 'notification');
     }
 }
 

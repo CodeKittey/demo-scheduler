@@ -8,7 +8,9 @@ export class SlackController {
     }
 
     public recievePayload(req: Request, res: Response): void {
-            console.log(req.body);
-            res.send(200);
+        if (req.body.payload) {
+            slackService.sendPayload(req.body.payload);
+        }
+        res.send(200);
     }
 }
