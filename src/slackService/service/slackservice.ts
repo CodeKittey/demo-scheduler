@@ -2,18 +2,16 @@ import {Service} from '../../service';
 import {WebClient, IncomingWebhook, CLIENT_EVENTS, RtmClient} from '@slack/client';
 import * as config from '../config/config.json';
 import {INotificationMessage} from '../messages/INotificationMessage';
+import * as members from '../config/member.json';
+import * as _ from 'lodash';
 
 
-const SLACK_WEBHOOK_URL = (<any>config).WEBHOOK_URL;
+const WEBHOOK_URL_TTBOT = (<any>config).WEBHOOK_URL_TTBOT;
 const BOT_TOKEN = (<any>config).BOT_TOKEN;
 
 export class SlackService implements Service {
     private web:any = new WebClient(BOT_TOKEN);
-    private webhook = new IncomingWebhook(SLACK_WEBHOOK_URL, {
-            username: 'My custom username',
-            iconEmoji: ':slack:',
-    });
-
+    priv
 
     private createWebhookMessage(message: INotificationMessage) {
         return {
@@ -49,9 +47,28 @@ export class SlackService implements Service {
 
 
     public postMessage(message: INotificationMessage) {
-        const webhookmessage = this.createWebhookMessage(message);
-        this.webhook.send(webhookmessage);
+        const webhookmessage = this.createWebhookMessage(message);   
+        console.log(WEBHOOK_URL_TTBOT) ;       
+            let wh = new IncomingWebhook(WEBHOOK_URL_TTBOT);
+            wh.send(webhookmessage);
+
+
+
     };
+
+//U81GBH329 kraus
+//U81HE6GV8 kitty
+
+
+    private getWebHookURL(nameKey: string) {
+        const memberEntry = _.find((<any>members), (entry) => { 
+            if(entry.key === nameKey) return entry.webhookurl;
+        });
+
+        console.log(memberEntry.webhookurl);
+
+        return memberEntry.webhookurl;
+    }
 }
 
 export const slackService = new SlackService();
