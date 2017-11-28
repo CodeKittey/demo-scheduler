@@ -1,13 +1,21 @@
 {
-  "name": "schedulerservice",
-  "version": "1.0.0",
-  "description": "webhook notification",
+  "name": "demo-scheduler",
+  "version": "0.0.1",
+  "description": "webhook for slack and email",
   "main": "app.js",
   "scripts": {
     "build": "tsc",
     "start": "nodemon --exec ts-node src/app.ts",
     "start-server": "node build/app.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeKittey/demo-scheduler.git"
+  },
+  "keywords": [
+    "webhooks",
+    "slack"
+  ],
   "author": "mkraus",
   "license": "MIT",
   "bugs": {
@@ -15,15 +23,11 @@
   },
   "homepage": "https://github.com/CodeKittey/demo-scheduler#readme",
   "dependencies": {
-    "@slack/client": "^3.14.2",
-    "amqp-ts": "^1.4.0",
     "restify": "^6.3.2",
-    "restify-clients": "^1.5.2",
     "ts-node": "^3.3.0",
     "typescript": "^2.6.1"
   },
   "devDependencies": {
-    "@types/node": "^8.0.53",
     "nodemon": "^1.12.1"
   }
 }

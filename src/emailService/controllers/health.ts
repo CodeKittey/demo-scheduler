@@ -1,7 +1,7 @@
-import {ApiServer} from '../apiServer';
+import {Request, Response} from 'restify';
 
 export class HealthController {
-    public initialize(apiServer: ApiServer): void {
-        apiServer.get('ping', (req, res) => res.send(200, 'hello'));
+    public get(req: Request, res: Response): void {
+        res.send(200, 'im alive');
     }
 }

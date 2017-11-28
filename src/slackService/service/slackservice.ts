@@ -21,9 +21,8 @@ export class SlackService implements Service {
                             "attachment_type": "default",
                             "actions": this.createUserAction(message.actions)
                         },
-                        
                     ],
-                    as_user: true
+                as_user: true
                 }
     }
 
@@ -76,7 +75,7 @@ export class SlackService implements Service {
         }
 
         let msg = new Amqp.Message(message);
-        EXCHANGE.send(msg, 'reciever');
+        EXCHANGE.send(msg, 'Q_CHANNEL_SLACK');
     }
 
     private getUserNameByUserId(userId: string) {

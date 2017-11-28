@@ -7,8 +7,8 @@ import {INotificationMessage} from './messages/INotificationMessage';
 
 var connection = new Amqp.Connection("amqp://localhost:5672");
 var exchange = connection.declareExchange('scheduler');
-var queue = connection.declareQueue("Notification");
-queue.bind(exchange, 'notification');
+var queue = connection.declareQueue("NotificationSLACK");
+queue.bind(exchange, 'notificationSLACK');
 
 queue.activateConsumer((message) => {
     new SlackController().postMessage(message.getContent());
