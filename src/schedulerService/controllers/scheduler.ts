@@ -18,8 +18,7 @@ export class SchedulerController {
     public send(req: Request, res: Response): void {
         let body = req.body;
         let users = [];
-        for (let service in AvailableServices) {
-           
+        for (let service in AvailableServices) {        
             users = body.users.filter(user => {
                 if (user.notification_channel === service)
                     return user;
