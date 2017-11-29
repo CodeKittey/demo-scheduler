@@ -42,12 +42,3 @@ export class SchedulerController {
         res.send(200);
     }
 }
-
-/*
-        notification = {
-            users: [{name: 'kraus', notification_channel: 'slack'},{name: 'rauber', notification_channel: 'slack'}],
-            callback_id: 'generated_uuid',
-            text: 'Willst du mit mir gehen?',
-            actions: [{text: 'Ja', value: 'yes'},{text: 'Nein', value: 'no'}]
-        }
-        */
