@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import {EXCHANGE} from './queue'; 
 import * as Amqp from "amqp-ts";
 
-const BOT_USER_OAUTH_ACCESS_TOKEN = (<any>config).BOT_USER_OAUTH_ACCESS_TOKEN;
+const BOT_USER_OAUTH_ACCESS_TOKEN = process.env.BOT_USER_OAUTH_ACCESS_TOKEN;
 
 export class SlackService {
     private web:any = new WebClient(BOT_USER_OAUTH_ACCESS_TOKEN);
@@ -74,7 +74,7 @@ export class SlackService {
         }
 
         let msg = new Amqp.Message(message);
-        EXCHANGE.send(msg, 'Q_CHANNEL_SLACK');
+        EXCHANGE.send(msg, process.env.QUEUE_CHANNEL_NAME_SLACK);
     }
 
     private getUserNameByUserId(userId: string) {

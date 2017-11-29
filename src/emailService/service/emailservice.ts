@@ -1,12 +1,11 @@
-import * as config from '../config/config.json';
 import {INotificationMessage} from '../messages/INotificationMessage';
 import * as members from '../config/member.json';
 import * as _ from 'lodash';
 import {EXCHANGE} from './queue'; 
 import * as Amqp from "amqp-ts";
 const sgMail = require('@sendgrid/mail');
-const API_MAIL_KEY = (<any>config).API_MAIL_KEY;
-const MAIL_SERVICE_URL = (<any>config).MAIL_SERVICE_URL;
+const API_MAIL_KEY = process.env.API_MAIL_KEY;
+const MAIL_SERVICE_URL = process.env.MAIL_SERVICE_URL;
 
 export class EmailService {
     public postMessage(message: INotificationMessage) {
@@ -28,7 +27,7 @@ export class EmailService {
 
     public sendPayload(payload) {
         let msg = new Amqp.Message(payload);
-        EXCHANGE.send(msg, 'Q_CHANNEL_MAIL');
+        EXCHANGE.send(msg, process.env.QUEUE_CHANNEL_NAME_MAIL);
     }
     
     private getUserEmailByName(nameKey: string) {
