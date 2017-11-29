@@ -16,10 +16,10 @@ COPY tsconfig.json .
 
 RUN npm install
 
-COPY src .
+COPY . .
 
 RUN npm run build
 
-EXPOSE 8080
+EXPOSE 8090
 
 CMD ["npm", "run", "start-server"]T

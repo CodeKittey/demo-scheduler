@@ -25,9 +25,7 @@ export class SchedulerController {
             
             });
 
-            //notification = this.transformIncomingMessage(body, users);
              let notification: INotificationMessage;
-
              notification = {
                  users: users,
                  callback_id: body.callback_id,

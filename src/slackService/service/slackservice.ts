@@ -1,4 +1,3 @@
-import {Service} from '../../service';
 import {WebClient} from '@slack/client';
 import * as config from '../config/config.json';
 import {INotificationMessage} from '../messages/INotificationMessage';
@@ -9,7 +8,7 @@ import * as Amqp from "amqp-ts";
 
 const BOT_USER_OAUTH_ACCESS_TOKEN = (<any>config).BOT_USER_OAUTH_ACCESS_TOKEN;
 
-export class SlackService implements Service {
+export class SlackService {
     private web:any = new WebClient(BOT_USER_OAUTH_ACCESS_TOKEN);
     
     private createWebhookAttachment(message: INotificationMessage) {

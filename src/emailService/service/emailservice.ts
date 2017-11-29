@@ -1,5 +1,3 @@
-import {Service} from '../../service';
-import {WebClient} from '@slack/client';
 import * as config from '../config/config.json';
 import {INotificationMessage} from '../messages/INotificationMessage';
 import * as members from '../config/member.json';
@@ -10,7 +8,7 @@ const sgMail = require('@sendgrid/mail');
 const API_MAIL_KEY = (<any>config).API_MAIL_KEY;
 const MAIL_SERVICE_URL = (<any>config).MAIL_SERVICE_URL;
 
-export class EmailService implements Service {
+export class EmailService {
     public postMessage(message: INotificationMessage) {
         sgMail.setApiKey(API_MAIL_KEY);
 
