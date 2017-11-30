@@ -7,7 +7,6 @@ export let server = restify.createServer({
     name: 'endPointTest'
 });
 
-//server.use(restify.plugins.CORS());
 server.use(restify.plugins.bodyParser());
 server.use(restify.plugins.queryParser());
 server.use(restify.plugins.fullResponse());
