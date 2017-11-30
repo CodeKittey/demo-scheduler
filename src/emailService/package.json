@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon --exec ts-node src/app.ts",
-    "start-server": "node build/emailService/app.js"
+    "start-server": "node build/app.js"
   },
   "author": "mkraus",
   "license": "MIT",
@@ -23,7 +22,6 @@
     "typescript": "^2.6.1"
   },
   "devDependencies": {
-    "@types/node": "^8.0.53",
-    "nodemon": "^1.12.1"
+    "@types/node": "^8.0.53"
   }
 }

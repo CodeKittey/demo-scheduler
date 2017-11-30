@@ -1,37 +1,41 @@
 version: '3'
 
 services:
+  slackservice:
+    build:
+      context: ../src/slackService
+      dockerfile: Dockerfile
+    env_file:
+      - ./slackservice.env
+    links:
+      - rabbitmq
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8080:8080"
+      
   scheduler:
     build:
-      context: ../schedulerService
+      context: ../src/schedulerService
       dockerfile: Dockerfile
     env_file:
       - ./scheduler.env
     links:
       - rabbitmq
-      - slackservice
-      - mailservice
+    depends_on:
+      - rabbitmq
     ports:
       - "1337:1337"
 
-  slackservice:
-    build:
-      context: ../slackService
-      dockerfile: Dockerfile
-        env_file:
-      - ./slackservice.env
-    links:
-      - rabbitmq
-    ports:
-      - "8080:8080"
-
   mailservice:
     build:
-      context: ../emailService
+      context: ../src/emailService
       dockerfile: Dockerfile
     env_file:
       - ./mailservice.env
     links:
+      - rabbitmq
+    depends_on:
       - rabbitmq
     ports:
       - "8090:8090"

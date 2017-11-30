@@ -2,11 +2,11 @@ import {WebClient} from '@slack/client';
 import * as config from '../config/config.json';
 import {INotificationMessage} from '../messages/INotificationMessage';
 import * as members from '../config/member.json';
+import {publisher} from './publisher';
 import * as _ from 'lodash';
-import {EXCHANGE} from './queue'; 
-import * as Amqp from "amqp-ts";
 
-const BOT_USER_OAUTH_ACCESS_TOKEN = process.env.BOT_USER_OAUTH_ACCESS_TOKEN;
+const BOT_USER_OAUTH_ACCESS_TOKEN =  (<any>config).BOT_USER_OAUTH_ACCESS_TOKEN;
+const QUEUE_CHANNEL_NAME_SLACK =  (<any>config).QUEUE_CHANNEL_NAME_SLACK;
 
 export class SlackService {
     private web:any = new WebClient(BOT_USER_OAUTH_ACCESS_TOKEN);
@@ -32,13 +32,15 @@ export class SlackService {
         message.users.forEach(user => {
             let userId = this.getUserIdByName(user.name);
         
-            if (!userId) return "User with username: " + user.name + "not found.";
+            if (!userId) {
+                publisher.sendStatus({"type": "error", "text": "User with username: " + user.name + " not found."});
+            }
 
             this.web.chat.postMessage(this.getUserIdByName(user.name), 'New Scheduler service incoming', options, (err, res) => {
             if (err) {
-                console.log('Error:', err);
+                publisher.sendStatus({"type": "error", "text": err});
             } else {
-                console.log('Message sent: ');
+                publisher.sendStatus({"type": "success", "text":"Success sending Message to: " + user.name});
             }
         });
      });
@@ -62,25 +64,6 @@ export class SlackService {
         });
 
         return userActions;
-    }
-
-    public sendPayload(payload) {
-        let payloadJSON = JSON.parse(payload);
-
-        let message = {
-            user: this.getUserNameByUserId(payloadJSON.user.id),
-            value: payloadJSON.actions[0].value,
-            callback_id: payloadJSON.callback_id
-        }
-
-        let msg = new Amqp.Message(message);
-        EXCHANGE.send(msg, process.env.QUEUE_CHANNEL_NAME_SLACK);
-    }
-
-    private getUserNameByUserId(userId: string) {
-        return _.findKey((<any>members), (member) => { 
-            return member === userId; 
-        });
     }
 }
 

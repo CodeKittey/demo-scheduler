@@ -4,8 +4,12 @@ import {HealthController} from './controllers/health';
 import {SlackController} from './controllers/slack';
 import * as Amqp from "amqp-ts";
 import {INotificationMessage} from './messages/INotificationMessage';
+import * as config from '../config/config.json';
 
-var connection = new Amqp.Connection("amqp://localhost:5672");
+const RABBITMQ_HOST = (<any>config).RABBITMQ_HOST;
+const RABBITMQ_PORT = (<any>config).RABBITMQ_PORT;
+
+var connection = new Amqp.Connection(`amqp://${RABBITMQ_HOST}:${RABBITMQ_PORT}`);
 var exchange = connection.declareExchange('scheduler');
 var queue = connection.declareQueue("NotificationSLACK");
 queue.bind(exchange, 'notificationSLACK');
@@ -29,5 +33,5 @@ server.post('/slack/recieve', new SlackController().recievePayload);
 
 
 server.listen(8080, function () {
-    console.log('Slack Service running - listening at %s', server.url);
+    console.log(`Slack Service running listening at ${server.url}`);
 });
