@@ -20,28 +20,28 @@ The Folder Dev provides a `docker-compose.yml` file and can be executed with
 
 As you can see there are three different docker env_files.
 
-####./slackservice.env
+slackservice.env
 - NODE_ENV
-- BOT_USER_OAUTH_ACCESS_TOKEN=<The slack based Bot oauth Token>
-- QUEUE_CHANNEL_NAME_SLACK=<The Name of the rabbitmq-queue for communication between scheduler and Slackservice>
-- RABBITMQ_HOST=<Hostname for RabbitMQ>
-- RABBITMQ_PORT=<Port for RabbitMQ>
+- BOT_USER_OAUTH_ACCESS_TOKEN=The slack based Bot oauth Token
+- QUEUE_CHANNEL_NAME_SLACK=The Name of the rabbitmq-queue for communication between scheduler and Slackservice
+- RABBITMQ_HOST=Hostname for RabbitMQ
+- RABBITMQ_PORT=Port for RabbitMQ
 
-####./scheduler.env
+scheduler.env
 - NODE_ENV
-- QUEUE_CHANNEL_NAME_MAIL=<The Name of the rabbitmq-queue for communication between scheduler and Mailservice>
-- PAYLOAD_URL=<The POST-WebhoolURL for revieving the events>
-- QUEUE_CHANNEL_NAME_SLACK=<The Name of the rabbitmq-queue for communication between scheduler and Slackservice>
-- RABBITMQ_HOST=<Hostname for RabbitMQ>
-- RABBITMQ_PORT=<Port for RabbitMQ>
+- QUEUE_CHANNEL_NAME_MAIL=The Name of the rabbitmq-queue for communication between scheduler and Mailservice
+- PAYLOAD_URL=The POST-WebhoolURL for revieving the events
+- QUEUE_CHANNEL_NAME_SLACK=The Name of the rabbitmq-queue for communication between scheduler and Slackservice
+- RABBITMQ_HOST=Hostname for RabbitMQ
+- RABBITMQ_PORT=Port for RabbitMQ
 
-####./mailservice.env
+mailservice.env
 - NODE_ENV
-- API_MAIL_KEY=<API Key for using the SendGrid Service>
-- MAIL_SERVICE_URL=<The webhook URL for recieving the mail answers>
-- QUEUE_CHANNEL_NAME_Mail=<The Name of the rabbitmq-queue for communication between scheduler and Slackservice>
-- RABBITMQ_HOST=<Hostname for RabbitMQ>
-- RABBITMQ_PORT=<Port for RabbitMQ>
+- API_MAIL_KEY=API Key for using the SendGrid Service
+- MAIL_SERVICE_URL=The webhook URL for recieving the mail answers
+- QUEUE_CHANNEL_NAME_Mail=The Name of the rabbitmq-queue for communication between scheduler and Slackservice
+- RABBITMQ_HOST=Hostname for RabbitMQ
+- RABBITMQ_PORT=Port for RabbitMQ
 
 ### Manuel
 
